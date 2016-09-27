@@ -21,8 +21,9 @@ class AnalyticsReportsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('spatie/analytics-reports');
+        $this->package('spatie/analytics-reports', 'analytics-reports', __DIR__);
     }
+
     /**
      * Register the service provider.
      *
@@ -30,9 +31,14 @@ class AnalyticsReportsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bindShared('analytics-reports', function ($app) {
+        $this->app->bind('Spatie\AnalyticsReports\AnalyticsReports', function ($app) {
             $client = $app->make('analytics');
-            $analyticsApi = new AnalyticsReports($client, $app['config']->get('analyticsReports.siteId'), $app['config']->get('analyticsReports.cacheLifetime'));
+
+            $analyticsApi = new AnalyticsReports(
+                $client,
+                $app['config']->get('analytics-reports::siteId'),
+                $app['config']->get('analytics-reports::cacheLifetime')
+            );
 
             return $analyticsApi;
         });
