@@ -12,7 +12,7 @@ class AnalyticsReportsServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $defer = true;
+    protected $defer = false;
 
     /**
      * Bootstrap the application events.
@@ -31,7 +31,8 @@ class AnalyticsReportsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Spatie\AnalyticsReports\AnalyticsReports', function ($app) {
+
+        $this->app->bind(\Spatie\AnalyticsReports\AnalyticsReports::class, function ($app) {
             $client = $app->make('analytics');
 
             $analyticsApi = new AnalyticsReports(
@@ -51,6 +52,6 @@ class AnalyticsReportsServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['analytics-reports'];
+        return [\Spatie\AnalyticsReports\AnalyticsReports::class];
     }
 }
